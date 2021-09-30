@@ -189,14 +189,10 @@
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
       minorDiagonalColumnIndexAtFirstRow = minorDiagonalColumnIndexAtFirstRow || 0;
       var diagonalSize;
-      console.log("this is the matrix: ", matrix);
-      console.log("minorDiagonalColumnIndex: ", minorDiagonalColumnIndexAtFirstRow);
       if (minorDiagonalColumnIndexAtFirstRow <= this.get('n') - 1) {
         diagonalSize = minorDiagonalColumnIndexAtFirstRow + 1;
-        console.log("diagonal size: ", diagonalSize);
       } else {
         diagonalSize = this.get('n');
-        console.log("diagonal size: ", diagonalSize);
       }
 
       var matrix = this.rows();
