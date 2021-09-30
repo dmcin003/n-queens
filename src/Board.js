@@ -62,7 +62,7 @@
     },
 
 
-/*
+    /*
          _             _     _
      ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
     / __| __/ _` | '__| __| | '_ \ / _ \ '__/ _ (_)
@@ -96,6 +96,7 @@
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
       var matrix = this.rows();
+      //
       for (var i = 0; i < matrix.length; i++) {
         if (this.hasRowConflictAt(i)) {
           return true;
@@ -143,41 +144,40 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+      majorDiagonalColumnIndexAtFirstRow = majorDiagonalColumnIndexAtFirstRow || 0;
 
-      if (majorDiagonalColumnIndexAtFirstRow < 0) {
-        return undefined;
+      var diagonalSize;
+      if (majorDiagonalColumnIndexAtFirstRow <= 0) {
+        diagonalSize = this.get('n');
+      } else {
+        diagonalSize = this.get('n') - majorDiagonalColumnIndexAtFirstRow;
       }
-
-
-      var diagonalSize = this.get('n') - majorDiagonalColumnIndexAtFirstRow;
       var matrix = this.rows();
       var counter = 0;
-      console.log('this is the matrix:', matrix);
-      console.log('this is the diagonal index:', majorDiagonalColumnIndexAtFirstRow);
       for (var i = 0; i < diagonalSize; i++) {
-        console.log(matrix[i][majorDiagonalColumnIndexAtFirstRow]);
-        if (matrix[i][majorDiagonalColumnIndexAtFirstRow] === 1) {
-          counter++;
+        if (majorDiagonalColumnIndexAtFirstRow < 0) {
+          //do nothing
+        } else {
+          if (matrix[i][majorDiagonalColumnIndexAtFirstRow] === 1) {
+            counter++;
+          }
         }
         majorDiagonalColumnIndexAtFirstRow++;
       }
-      console.log('this is the counter:', counter);
       if (counter >= 2) {
         return true;
       }
-      return false; // fixme
+      return false;
     },
 
-    // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      var matrix = this.rows();
-
-      for (var i = 0; i < matrix.length; i++) {
+      var n = this.get('n');
+      for (var i = -n; i < n; i++) {
         if (this.hasMajorDiagonalConflictAt(i)) {
           return true;
         }
       }
-      return false; // fixme
+      return false;
     },
 
 
@@ -187,14 +187,53 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      minorDiagonalColumnIndexAtFirstRow = minorDiagonalColumnIndexAtFirstRow || 0;
+      var diagonalSize;
+      console.log("this is the matrix: ", matrix);
+      console.log("minorDiagonalColumnIndex: ", minorDiagonalColumnIndexAtFirstRow);
+      if (minorDiagonalColumnIndexAtFirstRow <= this.get('n') - 1) {
+        diagonalSize = minorDiagonalColumnIndexAtFirstRow + 1;
+        console.log("diagonal size: ", diagonalSize);
+      } else {
+        diagonalSize = this.get('n');
+        console.log("diagonal size: ", diagonalSize);
+      }
+
+      var matrix = this.rows();
+      var counter = 0;
+      for (var i = 0; i < diagonalSize; i++) {
+        if (minorDiagonalColumnIndexAtFirstRow > (this.get('n') - 1)) {
+          //do nothing
+        } else {
+          if (matrix[i][minorDiagonalColumnIndexAtFirstRow] === 1) {
+            counter++;
+          }
+        }
+        minorDiagonalColumnIndexAtFirstRow--;
+      }
+      if (counter >= 2) {
+        return true;
+      }
+      return false;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
+      var n = 2 * (this.get('n') - 1);
+      for (var i = 0; i < n; i++) {
+        if (this.hasMinorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      /*
+      for (var i = 0; i < n; i++) {
+        if (this.hasAnyMinorDiagonalConflicts(i)) {
+          return true;
+        }
+      }
+      */
       return false; // fixme
     }
-
     /*--------------------  End of Helper Functions  ---------------------*/
 
 
