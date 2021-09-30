@@ -56,41 +56,41 @@ window.countNRooksSolutions = function(n) {
 window.findNQueensSolution = function(n) {
   //create board
   var solution = new Board({'n': n});
-  var columns = [];
+
+
   // Recursive function:
 
-  var innerRecursiveFunc = function(row) {
+  var innerRecursiveFunc = function(solution, row) {
     // Base case: n pieces placed/ row === n
     if (row === n) {
       // console.log('Single solution for ' + n + ' Queens:', JSON.stringify(solution.rows()));
-
       // return solution.rows();
-
+      return true;
     }
     for (var col = 0; col < n; col++) {
       //choice or decision
+
       solution.togglePiece(row, col);
       if (!solution.hasAnyQueensConflicts()) {
         //here is where we will recurse and move to next row
-        innerRecursiveFunc((row + 1));
-      } else {
-        //undoing our choice
-        solution.togglePiece(row, col);
-
+        if (innerRecursiveFunc(solution, (row + 1)) === true) {
+          return true;
+        }
       }
-
+      solution.togglePiece(row, col);
     }
+    return false;
   };
-  innerRecursiveFunc(0);
-
-  console.log("solution :" + solution.rows());
+  innerRecursiveFunc(solution, 0);
   return solution.rows();
 };
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  /*
+  var solution;
+  console.log('solution :' + solution.rows());
+  return solution.rows();
+  */
 
-  console.log('Number of solutions for ' + n + ' queens:', solutionCount);
-  return solutionCount;
 };
